@@ -1,0 +1,40 @@
+IMAPAccount christian@christiandickerson.me
+# Address to connect to
+Host imap-mail.outlook.com
+Port 993
+User christian.dickerson@outlook.com
+PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.gnupg/mailpass.gpg"
+# To store the password in an encrypted file use PassCmd instead of Pass
+# PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mailpass.gpg"
+#
+# Use SSL
+SSLType SSL/TSL
+AuthMechs LOGIN
+# The following line should work. If get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
+#CertificateFile ~/.mutt_certificates
+#CertificateFile ~/.cert/imap.gmail.com.pem
+#CertificateFile ~/.cert/Equifax_Secure_CA.pem
+
+IMAPStore christian-remote
+Account christian.dickerson@outlook.com
+
+MaildirStore christian-local
+SubFolders Verbatim
+# The trailing "/" is important
+Path ~/msgs/
+Inbox ~/msgs/INBOX
+Flatten .
+
+Channel christian
+Far :christian-remote:
+Near :christian-local:
+# Exclude everything under the internal [Gmail] folder, except the interesting folders
+Patterns *
+# ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+# Or include everything
+#Patterns *
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+Expunge Both
+# Save the synchronization state files in the relevant directory
+# SyncState *

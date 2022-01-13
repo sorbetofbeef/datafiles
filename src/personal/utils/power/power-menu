@@ -1,0 +1,88 @@
+#!/bin/bash
+
+LOOP=true
+check() {
+  echo "$boot_msg"
+  echo "(Y/n)?"
+  read -r -n1 select
+  if [[ $select = "n" ]]; then
+    LOOP=true
+    return 1
+  fi
+}
+
+_notify() {
+    msg="$1"
+
+    if [ -x /usr/bin/notify-send ]; then
+        notify-send $msg
+    else
+        echo "${msg}"
+    fi
+}
+
+main() {
+  echo "Power Menu"
+  echo "(l)ogout"
+  echo "(r)eboot"
+  echo "(p)ower off"
+  echo "(q)uit"
+  read -r -n1 select && clear
+  case $select in
+    l )
+      boot_msg="Logout of session?"
+      if check; then 
+        _notify "Logging Out of Sway Session..."
+        sleep 2
+        LOOP=false
+        swaymsg "exit"
+      else
+        LOOP=true
+      fi
+      ;;
+    r )
+      boot_msg="Reboot system?"
+      if check; then 
+        _notify "Rebooting Laptop..."
+        sleep 2
+        LOOP=false
+        doas reboot
+      else
+        LOOP=true
+      fi
+      ;;
+    p )
+      boot_msg="Power system off?"
+      if check; then 
+        _notify "Powering Laptop Down..."
+        sleep 2
+        LOOP=false
+        doas poweroff
+      else
+        LOOP=true
+      fi
+      ;;
+    q)
+      _notify "Canceled"
+      sleep 1
+      LOOP=false
+      exit 0
+      ;;
+$'\e') LOOP=false
+       exit 0
+       ;;
+
+    * )
+      LOOP=true
+      _notify "Invalid option"
+      sleep 1
+      return 1
+      ;;
+  esac
+  return
+}
+
+while [ $LOOP ]; do
+  main || LOOP=true
+  LOOP=false
+done
