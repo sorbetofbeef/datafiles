@@ -1,19 +1,38 @@
 #!/bin/bash
 
-ENTRIES=$1
+ENTRY=$1
 
 new_entry () {
-  local input=$1
-  local file="${input##*/}"
+  local file=$1
   printf '%s\n' $file
   unset input file
- }
+}
 
-for file in $ENTRIES ; do
-  if ! rg -q -i "${ENTRIES##*/}" "$PWD/.git-add" ; then
-    new_entry "$file" >> "$PWD/.git-add" ;
-  fi
-done 
-git add $(cat $PWD/.git-add)
+common () {
+  
+}
 
-unset file ENTRIES
+config () {
+
+}
+
+share () {
+
+}
+
+docs () {
+
+}
+
+filename="${ENTRY##$HOME/*/}"
+parent_dir=$(dirname $filename)
+
+echo $filename
+echo $parent_dir
+
+# if ! rg -q -i "$ENTRY" "$HOME/$this_dir/.git-add" ; then
+#   new_entry "$filename" >> "$HOME/$this_dir/.git-add" ;
+# fi
+# git add $(cat $PWD/.git-add)
+
+echo $ENTRIES

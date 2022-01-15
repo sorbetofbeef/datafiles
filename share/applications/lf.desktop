@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=lf
+Comment=Launches the lf file manager
+Icon=utilities-terminal
+Terminal=false
+Exec=kitty -1 --class "lf" --title "lf"  lf
+Categories=ConsoleOnly;System;FileTools;FileManager
+MimeType=inode/directory;
+Version=1.0

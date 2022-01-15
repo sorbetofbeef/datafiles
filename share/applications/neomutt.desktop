@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Exec=kitty -1 --class "neomutt" --title "neomutt"  neomutt
+Icon=kmail
+Terminal=false
+Categories=Network;Email;
+Keywords=email;cli;tui;
+Name=neomutt
+GenericName=Email Client
+Comment=A terminal driven email client
+Version=1.0
+
