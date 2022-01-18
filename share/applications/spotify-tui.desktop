@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/me/.local/bin/start-spotify
+Icon=spotify
+Terminal=false
+Categories=Music;
+Keywords=music;spt;spotifyd;tui;
+Name=spotify-tui
+GenericName=Music Streaming
+Comment=A wrapper for spt and spotifyd
+Version=1.0
+

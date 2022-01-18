@@ -1,6 +1,7 @@
+bin/scripts
+share/applications
 share/arch-install
 share/fonts
 share/lf
 share/newsboat
 src/personal
-src/linux-from-scratch
