@@ -3,7 +3,7 @@ local options = {
     [" Lock"] = "swaylock",
     [" Shut down"] = "systemctl poweroff",
     [" Reboot"] = "systemctl reboot",
-    ["﫼 Log out"] = "swaymsg exit",
+    ["﫼 Log out"] = "riverctl exit",
     ["鈴 Suspend"] = "systemctl suspend",
     [" Hibernate"] = "systemctl hibernate",
 }
