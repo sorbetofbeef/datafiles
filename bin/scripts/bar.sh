@@ -1,5 +1,5 @@
 #!/bin/bash
 
-pidof -q waybar && kill "$(pidof -q waybar)"
+pidof -q waybar && kill "$(pidof waybar)"
 exec waybar
 

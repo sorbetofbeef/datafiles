@@ -5,3 +5,6 @@ share/fonts
 share/lf
 share/newsboat
 src/personal
+share/fish
+.git-add
+.gitignore

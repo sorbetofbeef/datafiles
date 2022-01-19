@@ -21,8 +21,7 @@ local f = assert(
         "echo -e '"
             .. options_string
             .. "' | wofi "
-            .. "--dmenu --insensitive --prompt 'Power menu' --width 300 --style ~/.config/wofi/powermenu.css --lines "
-            .. length,
+            .. "--dmenu --insensitive --prompt 'Power State' --style ~/.config/wofi/style.css",
         "r"
     )
 )
