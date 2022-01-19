@@ -20,10 +20,6 @@ SCCACHE="/usr/bin/sccache"
 
 source ${HOME}/arch-install/common/funcs.sh
 
-bare_git () {
-	git --work-tree="/home/$USER" --git-dir="/home/$USER/.config/dotfiles" "$@"
-}
-
 exit_message () {
 	if [ "$?" -eq 0 ]; then
 		echo "Install Finished Successfully!"
@@ -73,23 +69,41 @@ pop () {
 
 
 get_dotfiles () {
-	# Cloning git repo 
+	# Cloning config repo 
 	echo "Checking for existing dotfiles"
-	if [[ ! -d /home/$USER/.config/dotfiles ]]; then
+	if [[ ! -f /home/$USER/.config/.git-add ]]; then
 		echo "Local dotfile repo not found"
 		echo "Cloning dotfiles from github..."
 
-		git clone --bare https://github.com/sorbetofbeef/dotfiles /home/$USER/.config/dotfiles ; outcome "$?" "Cloning"
+		git clone https://github.com/sorbetofbeef/dotfiles /home/$USER/.config  ; outcome "$?" "Cloning"
 	else
-		echo "Found dotfiles locally!"
+		echo "Found dotfiles locally!" ; outcome "$?" "Cloning"
 		sleep 1
 	fi
 
-	echo "Checking out proper git branch"
-	bare_git config status.showUntrackedFiles no
-	bare_git fetch --all
-	bare_git checkout kiss-sway ; outcome "$?" "Branch Checkout"
-	
+	# Cloning data repo
+	echo "Checking for existing data files"
+	if [[ ! -f /home/$USER/.local/.git-add ]]; then
+		echo "Local data files not found"
+		echo "Cloning data files from github..."
+
+		git clone https://github.com/sorbetofbeef/datafiles /home/$USER/.local  ; outcome "$?" "Cloning"
+	else
+		echo "Found data files locally!"
+		sleep 1
+	fi
+
+	# Cloning document repo
+	echo "Checking for existing document files"
+	if [[ ! -f /home/$USER/docs/.git-add ]]; then
+		echo "Local documents not found"
+		echo "Cloning documents from github..."
+
+		git clone https://github.com/sorbetofbeef/documents /home/$USER/docs ; outcome "$?" "Cloning" 
+	else
+		echo "Found documents locally!" ; outcome "$?" "Cloning"
+		sleep 1
+	fi
 }
 
 get_packages () {
@@ -99,7 +113,7 @@ get_packages () {
 	echo "Paru is the aur helper being used on the new system (man paru.conf)."
 	if [[ ! -x /usr/bin/paru ]]; then
 		echo "Cloning paru into dl/paru..." 
-		git clone https://aur.archlinux.org/paru.git ~/dl/paru ; outcome "$?" "Cloning paru"
+		git clone https://aur.archlinux.org/paru.git ~/dl/paru
 
 		# Changing to /home/$USER/dl/paru
 		push /home/$USER/dl/paru
@@ -109,7 +123,7 @@ get_packages () {
 
 		pop
 	else
-		echo "Paru already made"
+		echo "Paru already made"  ; outcome "$?" "Cloning paru"
     echo ""
 		sleep 1
 	fi
@@ -232,20 +246,6 @@ clean_up () {
   	echo "Backing up various files..."
   	cp -r $REG_SCRIPT_DIR /home/$USER/.local/share
   	sudo cp -r $REG_SCRIPT_DIR / && rm -rf $REG_SCRIPT_DIR
-	
-	echo "Set root password"
-	sudo passwd root
-	echo ""
-	sleep 1
-
-	echo "Set user password"
-	sudo passwd $USER
-	echo ""
-	sleep 1
-
-	echo "Changing shell to zsh"
-	chsh $USER -s /bin/zsh ; outcome "$?" "Shell Change"
-
 }
 
 password_reminder () {
@@ -263,6 +263,10 @@ FOR AFTER BUILD
 
 FOR INSTALL SCRIPTS
 -------------------
+- [ ] INFERNAL BEEPING!!
+- [ ] Add passwords to users
+	- [ ] also chsh to fish
+- [ ] Clone proper git dirs
 - [ ] Debug changes in:
 	- [X] init.sh
 	- [X] chroot.sh

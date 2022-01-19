@@ -13,16 +13,19 @@
 source ${HOME}/arch-install/common/vars.sh
 
 # Setting up variables for partions and mountpoints for system
-if [[ ! -f /dev/nvme0n1 ]]; then
+if [[ ! -e /dev/nvme0n1 ]]; then
 	export DEV_TYPE='/dev/sda'
+	export NEW_ROOT="${DEV_TYPE}3"
+	export NEW_BOOT="${DEV_TYPE}1"
+	export NEW_SWAP="${DEV_TYPE}2"
+	export NEW_HOME="${DEV_TYPE}4"
 else
-	export DEV_TYPE='/dev/nvme0n1p' 
+	export DEV_TYPE='/dev/nvme0n1' 
+	export NEW_ROOT="${DEV_TYPE}p3"
+	export NEW_BOOT="${DEV_TYPE}p1"
+	export NEW_SWAP="${DEV_TYPE}p2"
+	export NEW_HOME="${DEV_TYPE}p4"
 fi
-
-export NEW_ROOT=${DEV_TYPE}3
-export NEW_BOOT=${DEV_TYPE}1
-export NEW_SWAP=${DEV_TYPE}2
-export NEW_HOME=${DEV_TYPE}4
 
 export MNT_ROOT_DIR=/mnt/arch
 export MNT_BOOT_DIR=$MNT_ROOT_DIR/boot
@@ -39,13 +42,12 @@ unmounting () {
 	sleep 1
   	if [[ -d /mnt/boot ]] || [[ -d /mnt/home ]]; then 
   		umount -vR /mnt 
-  		swapoff -v /dev/sda2
 	fi
 
   	if [[ -d /mnt/arch/boot ]] || [[ -d /mnt/arch/home ]]; then 
   		umount -vR /mnt/arch
-  		swapoff -v /dev/sda2
   	fi
+  	swapoff -v "$NEW_SWAP"
 	sleep 3
 }
 
@@ -84,11 +86,6 @@ initial_setup () {
 	sleep 1
 	unmounting ; outcome "$?" "Unmounting"
 
-	# Creating mountpoint
-	echo "Creating mountpoint if it doesn't exist"
-	echo ""
-	sleep 1
-	[[ ! -d /mnt/arch ]] && mkdir -pv /mnt/arch
 	
 	echo "Do you need to launch fdisk for disk partioning? (y/N)"
 	read keep_going
@@ -101,11 +98,7 @@ initial_setup () {
 		echo "Launching fdisk"
 		sleep 3
 
-		if [[ ! -f /dev/nvme0n1 ]]; then
-			fdisk /dev/sda
-		else
-			fdisk /dev/nvme0n1
-		fi
+		fdisk $DEV_TYPE
 	else
 		echo "Disk partioning skipped"
 		echo ""
@@ -122,9 +115,17 @@ initial_setup () {
 		printf '\nChanged to '
 	fi
 	printf '%s \n\n' $MNT_ROOT_DIR
+	sleep 1
+	echo ""
+
+	# Creating mountpoint
+	echo "Creating mountpoint if it doesn't exist"
+	echo ""
+	sleep 1
+	[[ ! -d $MNT_ROOT_DIR ]] && mkdir -pv "$MNT_ROOT_DIR"
 	
 	# user inputs desired disk
-	echo "Input root partition. [/dev/sda3]: "
+	echo "Input root partition. [${NEW_ROOT}]: "
 	read user_root
 	if [[ $user_root == "" ]]; then
 		printf '\nKeeping default of '
@@ -135,7 +136,7 @@ initial_setup () {
 	printf '%s \n\n' $NEW_ROOT
 
 	# user inputs desired disk
-	echo "Input boot partition. [/dev/sda1]: "
+	echo "Input boot partition. [${NEW_BOOT}]: "
 	read user_boot
 	if [[ $user_boot == "" ]]; then
 		printf '\nKeeping default of '
@@ -146,7 +147,7 @@ initial_setup () {
 	printf '%s \n\n' $NEW_BOOT
 
 	# user inputs desired disk
-	echo "Input swap partition. [/dev/sda2]: "
+	echo "Input swap partition. [${NEW_SWAP}]: "
 	read user_swap
 	if [[ $user_swap == "" ]]; then
 		printf '\nKeeping default of '
@@ -162,7 +163,7 @@ initial_setup () {
 	read -r keep_going
 
 	if [[ $keep_going == "y" ]]; then
-		echo "Input home partition. [/dev/sda4]: "
+		echo "Input home partition. [${NEW_HOME}]: "
 		read user_home
 		if [[ $user_home == "" ]]; then
 			printf '\nKeeping default of '
