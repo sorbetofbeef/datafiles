@@ -1,7 +1,8 @@
 #!/usr/bin/lua
 local options = {
     [" Firefox"] = "firefox",
-    [" Spotify TUI"] = "kitty -1 start-spotify",
+    [" Spotify TUI"] = "start-spotify",
+    [" Kitty"] = "kitty -1 --title='🐈 Kitty'",
     [" Neovim IDE"] = "kitty -1 --working-directory '/home/me/github.com/sorbetofbeef' nvim --cmd ':cd /home/me/github.com/sorbetofbeef' -c ':NvimTreeOpen'",
     [" HTop"] = "kitty -1 htop",
     [" Neomutt"] = "kitty -1 neomutt",
