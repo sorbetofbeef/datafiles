@@ -31,7 +31,7 @@ complete -c cwebp -o segments -d 'Change the number of partitions to use during 
 complete -c cwebp -o partition_limit -d 'Degrade quality by limiting the number of bits used by some macroblocks'
 complete -c cwebp -s v -d 'Print extra information (encoding time in particular)'
 complete -c cwebp -o print_psnr -d 'Compute and report average PSNR (Peak-Signal-To-Noise ratio)'
-complete -c cwebp -o print_ssim -d 'Compute and report average SSIM (structural similarity metric, see http://en'
+complete -c cwebp -o print_ssim -d 'Compute and report average SSIM (structural similarity metric, see https://en'
 complete -c cwebp -o print_lsim -d 'Compute and report local similarity metric (sum of lowest error amongst the c…'
 complete -c cwebp -o progress -d 'Report encoding progress in percent'
 complete -c cwebp -o quiet -d 'Do not print anything'

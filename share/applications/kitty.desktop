@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=kitty
+StartupWMClass=kitty
+Exec=kitty -1 --title "kitty"
+Icon=kitty
+Path=${HOME}
+Comment[en_US]=Fully featured; GPU rendered terminal emulator

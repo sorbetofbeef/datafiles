@@ -2,12 +2,15 @@
 local options = {
     [" Firefox"] = "firefox",
     [" Spotify TUI"] = "start-spotify",
-    [" Kitty"] = "kitty -1 --title='🐈 Kitty'",
-    [" Neovim IDE"] = "kitty -1 --working-directory '/home/me/github.com/sorbetofbeef' nvim --cmd ':cd /home/me/github.com/sorbetofbeef' -c ':NvimTreeOpen'",
+    [" Kitty"] = "kitty -1 --title=' Kitty'",
+    [" Neovim IDE"] = "kitty -1 --working-directory '/home/me/github/sorbetofbeef' nvim"
+                       .. " -c ':NvimTreeOpen'",
     [" HTop"] = "kitty -1 htop",
     [" Neomutt"] = "kitty -1 neomutt",
-    [" Configuration"] = "kitty -1 --working-directory '/home/me/.config' nvim --cmd ':cd /home/me/.config' -c ':NvimTreeOpen'",
-    [" Data Files"] = "kitty -1 --working-directory '/home/me/.local' nvim --cmd ':cd /home/me/.local' -c ':NvimTreeOpen'",
+    [" Configuration"] = "kitty -1 --working-directory '/home/me/.config' nvim"
+                       .. " -c ':NvimTreeOpen'",
+    [" Data Files"] = "kitty -1 --working-directory '/home/me/.local' nvim"
+                       .. " -c ':NvimTreeOpen'",
     [" Font Manager"] = "font-manager",
     [" Files"] = "kitty -1 lf",
     [" Super HTop"] = "kitty -1 doas htop",

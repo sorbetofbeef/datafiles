@@ -3,6 +3,6 @@
 complete -c unzstd -s z -l compress -d Compress
 complete -c unzstd -s d -l decompress -l uncompress -d Decompress
 complete -c unzstd -s t -l test -d 'Test the integrity of compressed files'
-complete -c unzstd -o 'b#' -d 'Benchmark file(s) using compression level #'
+complete -c unzstd -o 'b#' -d 'Benchmark file(s) using compression level # '
 complete -c unzstd -l train -d 'Use FILEs as a training set to create a dictionary'
 
