@@ -4,5 +4,6 @@ complete -c git-merge-file -s L -d 'This option may be given up to three times, 
 complete -c git-merge-file -s p -d 'Send results to standard output instead of overwriting <current-file>'
 complete -c git-merge-file -s q -d 'Quiet; do not warn about conflicts'
 complete -c git-merge-file -l diff3 -d 'Show conflicts in "diff3" style'
+complete -c git-merge-file -l zdiff3 -d 'Show conflicts in "zdiff3" style'
 complete -c git-merge-file -l ours -l theirs -l union -d 'Instead of leaving conflicts in the file, resolve conflicts favouring our (or…'
 

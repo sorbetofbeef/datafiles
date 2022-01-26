@@ -25,6 +25,7 @@ complete -c git-ls-files -l recurse-submodules -d 'Recursively calls ls-files on
 complete -c git-ls-files -l abbrev -d 'Instead of showing the full 40-byte hexadecimal object lines, show the shorte…'
 complete -c git-ls-files -l debug -d 'After each line that describes a file, add more data about its cache entry'
 complete -c git-ls-files -l eol -d 'Show <eolinfo> and <eolattr> of files'
+complete -c git-ls-files -l sparse -d 'If the index is sparse, show the sparse directories without expanding to the …'
 complete -c git-ls-files -l 'exclude*' -d 'options is required'
 complete -c git-ls-files -s t
 complete -c git-ls-files -l porcelain -d 'and git-diff-files(1)'

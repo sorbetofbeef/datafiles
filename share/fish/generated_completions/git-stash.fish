@@ -6,6 +6,7 @@ complete -c git-stash -l only-untracked -d 'This option is only valid for the sh
 complete -c git-stash -l index -d 'This option is only valid for pop and apply commands'
 complete -c git-stash -s k -l keep-index -l no-keep-index -d 'This option is only valid for push and save commands'
 complete -c git-stash -s p -l patch -d 'This option is only valid for push and save commands'
+complete -c git-stash -s S -l staged -d 'This option is only valid for push and save commands'
 complete -c git-stash -l pathspec-from-file -d 'This option is only valid for push command'
 complete -c git-stash -l pathspec-file-nul -d 'This option is only valid for push command'
 complete -c git-stash -s q -l quiet -d 'This option is only valid for apply, drop, pop, push, save, store commands'

@@ -64,6 +64,7 @@ complete -c git-format-patch -l inline -d 'Create multipart/mixed attachment, th
 complete -c git-format-patch -l thread -l no-thread -d 'Controls addition of In-Reply-To and References headers to make the second an…'
 complete -c git-format-patch -l in-reply-to -d 'Make the first mail (or all the mails with --no-thread) appear as a reply to …'
 complete -c git-format-patch -l ignore-if-in-upstream -d 'Do not include a patch that matches a commit in <until>. <since>'
+complete -c git-format-patch -l always -d 'Include patches for commits that do not introduce any change, which are omitt…'
 complete -c git-format-patch -l cover-from-description -d 'Controls which parts of the cover letter will be automatically populated usin…'
 complete -c git-format-patch -l subject-prefix -d 'Instead of the standard [PATCH] prefix in the subject line, instead use [<sub…'
 complete -c git-format-patch -l filename-max-length -d 'Instead of the standard 64 bytes, chomp the generated output filenames at aro…'

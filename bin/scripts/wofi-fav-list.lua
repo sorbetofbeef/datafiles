@@ -2,13 +2,13 @@
 local options = {
     [" Firefox"] = "firefox",
     [" Spotify TUI"] = "start-spotify",
-    [" Kitty"] = "kitty -1 --title=' Kitty'",
-    [" Neovim IDE"] = "kitty -1 --working-directory '/home/me/github/sorbetofbeef' nvim"
+    [" Kitty"] = "kitty -1 --title='Kitty'",
+    [" Neovim IDE"] = "kitty -1 --working-directory '/home/me/projects' nvim"
                        .. " -c ':NvimTreeOpen'",
     [" HTop"] = "kitty -1 htop",
     [" Neomutt"] = "kitty -1 neomutt",
     [" Configuration"] = "kitty -1 --working-directory '/home/me/.config' nvim"
-                       .. " -c ':NvimTreeOpen'",
+                          .. "  -c ':NvimTreeOpen'",
     [" Data Files"] = "kitty -1 --working-directory '/home/me/.local' nvim"
                        .. " -c ':NvimTreeOpen'",
     [" Font Manager"] = "font-manager",

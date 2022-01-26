@@ -1,10 +1,17 @@
 #!/bin/bash
 
-target_dirs=/usr/share/icons
+sys_dirs=/usr/share/icons
+user_dirs=$XDG_DATA_HOME/icons
+
+if [ "$1" = "-u" ]; then
+  target_dirs=$user_dirs
+else
+  target_dirs=$sys_dirs
+fi
 
 # update icon cache helper function
 function update_all_icons {
-  for dir in ${target_dirs}/*; do
+  for dir in "${target_dirs}"/*; do
     echo "Updating ${dir}..."
     gtk-update-icon-cache -t -f --include-image-data "${dir}" || exit 1
     echo "Finished with ${dir}."

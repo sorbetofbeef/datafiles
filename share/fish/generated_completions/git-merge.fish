@@ -20,6 +20,7 @@ complete -c git-merge -l progress -l no-progress -d 'Turn progress on/off explic
 complete -c git-merge -l autostash -l no-autostash -d 'Automatically create a temporary stash entry before the operation begins, rec…'
 complete -c git-merge -l allow-unrelated-histories -d 'By default, git merge command refuses to merge histories that do not share a …'
 complete -c git-merge -s m -d 'Set the commit message to be used for the merge commit (in case one is create…'
+complete -c git-merge -l into-name -d 'Prepare the default merge message as if merging to the branch <branch>, inste…'
 complete -c git-merge -s F -l file -d 'Read the commit message to be used for the merge commit (in case one is creat…'
 complete -c git-merge -l rerere-autoupdate -l no-rerere-autoupdate -d 'Allow the rerere mechanism to update the index with the result of auto-confli…'
 complete -c git-merge -l overwrite-ignore -l no-overwrite-ignore -d 'Silently overwrite ignored files from the merge result'

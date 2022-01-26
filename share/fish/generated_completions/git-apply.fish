@@ -24,9 +24,11 @@ complete -c git-apply -l ignore-space-change -l ignore-whitespace -d 'When apply
 complete -c git-apply -l whitespace -d 'When applying a patch, detect a new or modified line that has whitespace erro…'
 complete -c git-apply -l inaccurate-eof -d 'Under certain circumstances, some versions of diff do not correctly detect a …'
 complete -c git-apply -s v -l verbose -d 'Report progress to stderr'
+complete -c git-apply -s q -l quiet -d 'Suppress stderr output'
 complete -c git-apply -l recount -d 'Do not trust the line counts in the hunk headers, but infer them by inspectin…'
 complete -c git-apply -l directory -d 'Prepend <root> to all filenames'
 complete -c git-apply -l unsafe-paths -d 'By default, a patch that affects outside the working area (either a Git contr…'
+complete -c git-apply -l allow-empty -d 'Don\'t return error for patches containing no diff'
 complete -c git-apply -o p2 -d 'a/dir/file will be applied directly to file.  The default is 1'
 complete -c git-apply -l unified
 

@@ -6,7 +6,7 @@ complete -c git-repack -s d -d 'After packing, if the newly created packs make s
 complete -c git-repack -s l -d 'Pass the --local option to git pack-objects.  See git-pack-objects(1)'
 complete -c git-repack -s f -d 'Pass the --no-reuse-delta option to git-pack-objects, see git-pack-objects(1)'
 complete -c git-repack -s F -d 'Pass the --no-reuse-object option to git-pack-objects, see git-pack-objects(1)'
-complete -c git-repack -s q -d 'Pass the -q option to git pack-objects.  See git-pack-objects(1)'
+complete -c git-repack -s q -l quiet -d 'Show no progress over the standard error stream and pass the -q option to git…'
 complete -c git-repack -s n -d 'Do not update the server information with git update-server-info'
 complete -c git-repack -l window -l depth -d 'These two options affect how the objects contained in the pack are stored usi…'
 complete -c git-repack -l threads -d 'This option is passed through to git pack-objects'

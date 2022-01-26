@@ -5,7 +5,7 @@ complete -c git-config -l add -d 'Adds a new line to the option without altering
 complete -c git-config -l get -d 'Get the value for a given key (optionally filtered by a regex matching the va…'
 complete -c git-config -l get-all -d 'Like get, but returns all values for a multi-valued key'
 complete -c git-config -l get-regexp -d 'Like --get-all, but interprets the name as a regular expression and writes ou…'
-complete -c git-config -l get-urlmatch -d 'When given a two-part name section. key, the value for section. <url>'
+complete -c git-config -l get-urlmatch -d 'When given a two-part name section. key, the value for section. <URL>'
 complete -c git-config -l global -d 'For writing options: write to global ~/'
 complete -c git-config -l system -d 'For writing options: write to system-wide $(prefix)/etc/gitconfig rather than…'
 complete -c git-config -l local -d 'For writing options: write to the repository . git/config file'
@@ -25,7 +25,7 @@ complete -c git-config -s z -l null -d 'For all options that output values and/o
 complete -c git-config -l name-only -d 'Output only the names of config variables for --list or --get-regexp'
 complete -c git-config -l show-origin -d 'Augment the output of all queried config options with the origin type (file, …'
 complete -c git-config -l show-scope -d 'Similar to --show-origin in that it augments the output of all queried config…'
-complete -c git-config -l get-colorbool -d 'Find the color setting for name (e. g.  color'
+complete -c git-config -l get-colorbool -d 'Find the color setting for <name> (e. g.  color'
 complete -c git-config -l get-color -d 'Find the color configured for name (e. g.  color. diff'
 complete -c git-config -s e -l edit -d 'Opens an editor to modify the specified config file; either --system, --globa…'
 complete -c git-config -l includes -d 'Respect include. * directives in config files when looking up values'
@@ -98,7 +98,7 @@ complete -c git-config -o kb -d 'mode, which suppresses any newline munging the 
 complete -c git-config -l basic-regexp
 complete -c git-config -l extended-regexp
 complete -c git-config -l fixed-strings
-complete -c git-config -l perl-regexp -d 'option accordingly, while the value default will return to the default matchi…'
+complete -c git-config -l perl-regexp -d 'option accordingly, while the value default will use the grep'
 complete -c git-config -l gpg-sign -d 'gpg. <format>. program'
 complete -c git-config -l negotiate -d 'curl(1)) oc o 2. 3'
 complete -c git-config -l ntlm -d 'curl(1)) http. proxySSLCert'

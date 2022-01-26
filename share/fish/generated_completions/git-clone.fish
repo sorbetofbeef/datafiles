@@ -12,7 +12,7 @@ complete -c git-clone -l server-option -d 'Transmit the given string to the serv
 complete -c git-clone -s n -l no-checkout -d 'No checkout of HEAD is performed after the clone is complete'
 complete -c git-clone -l reject-shallow -d 'Fail if the source repository is a shallow repository.  The clone'
 complete -c git-clone -l bare -d 'Make a bare Git repository'
-complete -c git-clone -l sparse -d 'Initialize the sparse-checkout file so the working directory starts with only…'
+complete -c git-clone -l sparse -d 'Employ a sparse-checkout, with only files in the toplevel directory initially…'
 complete -c git-clone -l filter -d 'Use the partial clone feature and request that the server sends a subset of r…'
 complete -c git-clone -l mirror -d 'Set up a mirror of the source repository.  This implies --bare'
 complete -c git-clone -s o -l origin -d 'Instead of using the remote name origin to keep track of the upstream reposit…'
