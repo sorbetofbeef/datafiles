@@ -1,22 +1,28 @@
 #!/usr/bin/lua
 local options = {
-    [" Firefox"] = "firefox",
-    [" Spotify TUI"] = "start-spotify",
-    [" Kitty"] = "kitty -1 --title='Kitty'",
-    [" Neovim IDE"] = "kitty -1 --working-directory '/home/me/projects' nvim"
-                       .. " -c ':NvimTreeOpen'",
-    [" HTop"] = "kitty -1 htop",
-    [" Neomutt"] = "kitty -1 neomutt",
-    [" Configuration"] = "kitty -1 --working-directory '/home/me/.config' nvim"
-                          .. "  -c ':NvimTreeOpen'",
-    [" Data Files"] = "kitty -1 --working-directory '/home/me/.local' nvim"
-                       .. " -c ':NvimTreeOpen'",
-    [" Font Manager"] = "font-manager",
-    [" Files"] = "kitty -1 lf",
-    [" Super HTop"] = "kitty -1 doas htop",
-    [" Super Configuration"] = "kitty -1 --working-directory '/usr' doas nvim --cmd ':cd /etc' -c ':Lexplore'",
-    [" Super Data Files"] = "kitty -1 --working-directory '/etc' doas nvim --cmd ':cd /usr' -c ':Lexplore'",
-    [" System Files"] = "kitty -1 doas lf",
+    ["  qutebrowser"] = "qutebrowser",
+    ["  Firefox"] = "firefox",
+    ["  Font Manager"] = "font-manager",
+
+    ["  Spotify TUI"] = "start-spotify",
+    ["  Files"] = "kitty -1 lf",
+    ["  HTop"] = "kitty -1 htop",
+    ["  Kitty"] = "kitty -1 --title='Kitty'",
+    ["  Neomutt"] = "kitty -1 neomutt",
+    ["  Music"] = "kitty -1 --working-directory '/home/me/media/mix' ncmpcpp",
+    ["  Video"] = "kitty -1 --working-directory '/home/me/media/vids' mpv",
+
+    ["  Neovim IDE"] = "kitty -1 --working-directory '/home/me/projects' nvim"
+                        .. " -c ':NvimTreeOpen'",
+    ["  Configuration"] = "kitty -1 --working-directory '/home/me/.config' nvim"
+                           .. " -c ':NvimTreeOpen'",
+    ["  Data Files"] = "kitty -1 --working-directory '/home/me/.local' nvim"
+                        .. " -c ':NvimTreeOpen'",
+
+    ["  Super HTop"] = "kitty -1 doas htop",
+    ["  System Files"] = "kitty -1 doas lf",
+    ["  Super Configuration"] = "kitty -1 --working-directory '/usr' doas nvim --cmd ':cd /etc' -c ':Lexplore'",
+    ["  Super Data Files"] = "kitty -1 --working-directory '/etc' doas nvim --cmd ':cd /usr' -c ':Lexplore'",
 }
 
 local options_string = ""
