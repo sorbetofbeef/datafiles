@@ -8,11 +8,15 @@ create () {
   printf '\nDate Due: '; read -r due_date 
   printf '\nNotes: '; read -r notes
 
-  cat > "$workspace/${title}_$(date '+%m.%d').todo" << EOF
+formatting="${title//\ /\-}"
+f_title="${formatting,,}"
+
+  cat > "$workspace/${f_title}_$(date '+%m.%d').todo" << EOF
 Title: $title
 Due: $due_date
 Notes: $notes
 EOF
+
 }
 
 new () {
@@ -48,7 +52,8 @@ main() {
     esac
   done
   
-  printf 'Main Menu: \n ┳━━━━━━━ \n ┃ (s)how \n ┃ (n)ew \n ┃ (q)uit \n ┻━━━━━━━ \n'
+  printf '┏━━━━━━━━━━━━━━━━┓ \n┃   Main Menu    ┃ \n┗━━━┳━━━━━━━━━━┳━┛\n    ┃  (s)how  ┃  \n    ┣━━━━━━━━━━┫  \n    ┃ (c)reate ┃  \n    ┣━━━━━━━━━━┫  \n    ┃  (q)uit  ┃  \n    ┗━━━━━━━━━━┛ \n'
+
   read -r -n1 select
   echo ""
 
@@ -67,7 +72,6 @@ main() {
       echo "Quiting... " 
       sleep 1
       export loop=false
-      exit 0 
       ;;
     * ) echo "Invalid selection" ; clear ;;
   esac
@@ -76,5 +80,6 @@ main() {
 
 while $loop; do 
   main
-  unset loop
 done
+
+unset loop
