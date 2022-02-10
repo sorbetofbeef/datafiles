@@ -1,11 +1,11 @@
 #!/usr/bin/lua
 local options = {
-    [" Lock"] = "swaylock",
-    [" Shut down"] = "systemctl poweroff",
-    [" Reboot"] = "systemctl reboot",
+ --   [" Lock"] = "swaylock",
+    [" Shut down"] = "sudo poweroff",
+     [" Reboot"] = "sudo reboot",
     ["﫼 Log out"] = "riverctl exit",
-    ["鈴 Suspend"] = "systemctl suspend",
-    [" Hibernate"] = "systemctl hibernate",
+    -- ["鈴 Suspend"] = "sudo suspend",
+    -- [" Hibernate"] = "sudo hibernate",
 }
 
 local options_string = ""

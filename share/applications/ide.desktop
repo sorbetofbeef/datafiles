@@ -2,7 +2,7 @@
 Type=Application
 Name=dev
 StartupWMClass=dev
-Exec=kitty -1 --class "dev" --title "Neovim IDE" --working-directory="/home/me/github/sorbetofbeef" nvim -- ./
+Exec=kitty -1 --class "dev" --title "Neovim IDE" --working-directory="/home/me/github.com/sorbetofbeef" nvim "/home/me/github.com/sorbetofbeef/" 
 Icon=code
-Path=/home/me/github/sorbetofbeef/sorbetofbeef
+Path=/home/me/github.com/sorbetofbeef/
 Comment[en_US]=Neovim IDE

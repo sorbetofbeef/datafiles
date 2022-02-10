@@ -11,13 +11,13 @@ else
 fi
 
 if [ $('pgrep' -c --full 'nvim -u /home/me/.local/share/lunarvim/lvim/init.lua src/App.jsx') -eq 0 ]; then
-	kitty -1 --class ReactCode --working-directory /home/me/github.com/SorbetofBeef/go-movies 'lvim' src/App.jsx &
+	kitty -1 --app-id ReactCode --working-directory /home/me/github.com/SorbetofBeef/go-movies 'lvim' src/App.jsx &
 else 
   echo 'React IDE is running'
 fi
 
 if [ $('pgrep' -c --full 'nvim -u /home/me/.local/share/lunarvim/lvim/init.lua cmd/api/main.go') -eq 0 ]; then
-	kitty -1 --class GoCode --working-directory /home/me/github.com/SorbetofBeef/go-movies-backend 'lvim' cmd/api/main.go &
+	kitty -1 --app-id GoCode --working-directory /home/me/github.com/SorbetofBeef/go-movies-backend 'lvim' cmd/api/main.go &
 else
   echo 'Go IDE is running'
 fi

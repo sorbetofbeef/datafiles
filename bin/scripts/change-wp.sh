@@ -9,7 +9,7 @@ err(){
   printf '%s. Error Code %d\n' "${msg}" "${code}"
 }
 
-change_wallpaper(){
+changeWallpaper(){
   new_wallpaper="${PIX_DIR}/${FILE}"
 
   if [[ -e $new_wallpaper ]]; then
@@ -22,9 +22,9 @@ change_wallpaper(){
   rm "${SYM_LINK}~"
 }
 
-restart_sway(){
-  if [[ -e ${SYM_LINK} ]]; then
-    riverctl exit && echo "Restarting river..."
+restartSway(){
+  if [[ ! -e ${SYM_LINK}~ ]]; then
+    swaymsg 'reload' && echo "Sway restarted succesfully"
   else
     err "Symbolic link was not created properly"
     return 1
@@ -38,7 +38,7 @@ ls --color=auto "$PIX_DIR"
 echo "Enter title of desired wallpaper: "
 read -r FILE 
 echo "$FILE"
-if change_wallpaper; then
+if changeWallpaper; then
   echo "Set wallpaper succesfully!" 
 else
   err "Specified image does not exist" 
@@ -46,6 +46,6 @@ else
 fi
 
 echo "Restarting Sway..."
-[[ -n $new_wallpaper ]] && restart_sway || exit $? 
+[[ -n $new_wallpaper ]] && restartSway || exit $? 
 echo "Bye!"
 
