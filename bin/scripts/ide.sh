@@ -1,4 +1,3 @@
 #!/bin/bash
 
-
-footclient --app-id "dev" --title "Kakoune IDE" --working-directory="/home/me/github" kak -e "cd /home/me/github"
+exec kitty -1 --class "dev" --title "Neovim IDE" --working-directory="/home/me/github" nvim --cmd ":cd /home/me/github"

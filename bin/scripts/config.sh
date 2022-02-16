@@ -1,4 +1,4 @@
 #!/bin/bash
 
-footclient --app-id "settings" --title "User Configuration" kak -e 'cd /home/me/.config/'
+kitty -1 --class "settings" --title "User Configuration" nvim --cmd ':cd /home/me/.config/'
 
