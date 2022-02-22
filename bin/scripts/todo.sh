@@ -4,9 +4,9 @@ workspace=/home/me/workspace
 loop=true
 
 create () {
-  printf '\nTitle: '; read -r title
-  printf '\nDate Due: '; read -r due_date 
-  printf '\nNotes: '; read -r notes
+  printf '\n - Entry - '; read -r title
+  printf '\n  - Due - '; read -r due_date 
+  printf '\n - Notes - '; read -r notes
 
   formatting="${title//[\'\[\]\!\?@#\$%\^&\*\(\)\{\}]}"
   formatting="${formatting//[\ \-\.\,]/\_}"
@@ -16,7 +16,7 @@ create () {
   f_title="${formatting,,}"
 
   cat > "$workspace/${f_title}_$(date '+%m.%d').todo" << EOF
-Title: $title
+Entry: $title
 Due: $due_date
 Notes: $notes
 EOF
@@ -46,33 +46,36 @@ show () {
   done
 }
 
-destroy () {
-  echo "TODO LIST"
-  for item in "$workspace"/*.todo; do 
-    echo "$item"
+edit () {
+  i=0
+  pushd /home/me/workspace/ || return 1
+  printf "Edit entry: " ; read choice
+  for f in /home/me/workspace/*.todo; do
+    i=$((i + 1))
+    [[ ! $choice = $i ]] && continue 
+    [[ $choice = $i ]] && nvim "$f" 
   done
+  popd || return 1
+  unset choice i
+}
 
+destroy () {
+  i=0
+  pushd /home/me/workspace/ || return 1
   printf "Remove entry: " ; read choice
-  if [[ -z /home/me/workspace/$choice ]]; then
-    echo "No choice made."
-    echo "Returning to menu..."
-    return 0
-  else
-    if [[ -e /home/me/workspace/$choice ]]; then
-      rm -iv "/home/me/workspace/${choice}"
-    else 
-      echo "Entry does not exist."
-      echo "Returning to menu..."
-
-    fi
-  fi
-
+  for f in /home/me/workspace/*.todo; do
+    i=$((i + 1))
+    [[ ! $choice = $i ]] && continue 
+    [[ $choice = $i ]] && rm -iv "$f"
+  done
+  popd || return 1
+  unset choice i
 }
 
 check () {
   while getopts "ns" opt ; do
     case ${opt} in 
-      n ) new; exit 1 ;;
+      n ) new; exit 0 ;;
       s ) show; exit 0 ;;
       \? ) echo "invalid option" ;;
     esac
@@ -81,7 +84,7 @@ check () {
 
 main() {
   
-  printf '┏━━━━━━━━━━━━━━━━┓ \n┃   Main Menu    ┃ \n┗━━━┳━━━━━━━━━━┳━┛\n    ┃  (s)how  ┃  \n    ┣━━━━━━━━━━┫  \n    ┃ (c)reate ┃  \n    ┣━━━━━━━━━━┫  \n    ┃ (d)elete ┃  \n    ┣━━━━━━━━━━┫  \n    ┃  (q)uit  ┃  \n    ┗━━━━━━━━━━┛ \n'
+  printf '┏━━━━━━━━━━━━━━━━┓ \n┃   Main Menu    ┃ \n┗━━━┳━━━━━━━━━━┳━┛\n    ┃  (s)how  ┃  \n    ┣━━━━━━━━━━┫  \n    ┃ (c)reate ┃  \n    ┣━━━━━━━━━━┫  \n    ┃  (e)dit  ┃  \n    ┣━━━━━━━━━━┫  \n    ┃ (d)elete ┃  \n    ┣━━━━━━━━━━┫  \n    ┃  (q)uit  ┃  \n    ┗━━━━━━━━━━┛ \n'
 
   read -r -n1 select
   echo ""
@@ -97,9 +100,16 @@ main() {
       clear
       show 
       ;;
+    e ) 
+      echo "Editing todo item... " 
+      clear
+      show
+      edit 
+      ;;
     d ) 
       echo "Destroying todo item... " 
       clear
+      show
       destroy 
       ;;
     q ) 
