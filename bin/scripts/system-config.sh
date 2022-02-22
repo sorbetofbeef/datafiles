@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-footclient --app-id "settings" --working-directory="/etc/" sudo kak "/etc/"
+exec kitty -1 --class "settings" --working-directory="/etc/" sudo nvim "/etc/"

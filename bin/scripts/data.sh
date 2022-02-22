@@ -1,3 +1,3 @@
 #!/bin/bash
 
-footclient --app-id "settings" --title "User Data" kak -e "cd /home/me/.local/"
+exec kitty -1 --class "settings" --title "User Data" nvim --cmd ":cd /home/me/.local/"
