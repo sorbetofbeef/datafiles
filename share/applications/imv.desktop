@@ -1,0 +1,15 @@
+
+[Desktop Entry]
+Name=imv
+GenericName=Image Viewer
+Comment=Native Wayland image viewer
+Exec=imv $f
+Terminal=false
+Type=Application
+Keywords=Image;viewer;
+Icon=eye-of-gnome
+Categories=Utility
+StartupNotify=false
+MimeType=image/gif;image/png;image/jpeg;image/webp;
+Version=1.0
+Name[en_US]=imv

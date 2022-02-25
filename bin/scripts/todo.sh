@@ -16,25 +16,25 @@ create () {
   f_title="${formatting,,}"
 
   cat > "$workspace/${f_title}_$(date '+%m.%d').todo" << EOF
-Entry: $title
-Due: $due_date
-Notes: $notes
+ - Entry - $title
+  - Due -  $due_date
+ - Notes -
+$notes
 EOF
 
   unset title due_date notes
 }
 
-new () {
-    echo "Create new todo file? (Y/n)"
-    read -r -n1 create
+check () {
+  msg=$1
+  printf '%s \nContinue? (Y/n)\n'
+    read -r -n1 choise
     echo ""
-    if [ "$create" = "n" ]; then
-        echo "Okay..."
-        sleep 1
-    else
-      create
+    if [ "$choise" = "n" ]; then
+      echo "Okay..."
+      return 1
     fi
-    unset create
+    unset choise
     return 0
 }
 
@@ -90,24 +90,33 @@ main() {
   echo ""
 
   case $select in 
-    c ) 
-      echo "Creating new todo item... " 
-      clear
-      new
-      ;;
     s ) 
-      echo "Displaying todo items... " 
+      clear
+      echo "Displaying todo entries... " 
+      sleep 1
       clear
       show 
       ;;
+    c ) 
+      clear
+      check 'About to create a new todo entry... ' || break
+      sleep 1
+      clear
+      create
+      ;;
     e ) 
-      echo "Editing todo item... " 
+      clear
+      check 'About to destroying a todo entry... ' || break
       clear
       show
       edit 
       ;;
     d ) 
-      echo "Destroying todo item... " 
+      clear
+      check 'Destroying todo item... ' || break
+      sleep 1
+      clear
+      echo 
       clear
       show
       destroy 
