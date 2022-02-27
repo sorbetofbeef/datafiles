@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-exec kitty -1 --class "docs" --title "docs" --working-directory "/home/me/docs" nvim "/home/me/docs/"
+exec kitty -1 --class "docs" nvim --cmd ":cd /home/me/docs/"

@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-exec kitty -1 --class "lf" --title "lf"  lf
+exec kitty -1 --class "files" --title "lf"  lf
