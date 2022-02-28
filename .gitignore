@@ -1,3 +1,15 @@
+src/*
+!src/personal
+bin/*
+!bin/scripts
+include
+lib
+kitty.app
 share/lf/history
-share/fish
+share/*
+!share/applications
+!share/arch-install
+!share/fonts
+!share/lf
+!share/newsboats
 

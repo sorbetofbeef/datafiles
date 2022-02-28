@@ -9,10 +9,10 @@ local options = {
     [" Data Files"] = "kitty -1 --working-directory '/home/me/.local' nvim --cmd ':cd /home/me/.local' -c ':NvimTreeOpen'",
     [" Font Manager"] = "font-manager",
     [" Files"] = "kitty -1 lf",
-    [" Super HTop"] = "kitty -1 doas htop",
-    [" Super Configuration"] = "kitty -1 --working-directory '/usr' doas nvim --cmd ':cd /etc' -c ':Lexplore'",
-    [" Super Data Files"] = "kitty -1 --working-directory '/etc' doas nvim --cmd ':cd /usr' -c ':Lexplore'",
-    [" System Files"] = "kitty -1 doas lf",
+    [" Super HTop"] = "kitty -1 sudo htop",
+    [" Super Configuration"] = "kitty -1 --working-directory '/usr' sudo nvim --cmd ':cd /etc' -c ':Lexplore'",
+    [" Super Data Files"] = "kitty -1 --working-directory '/etc' sudo nvim --cmd ':cd /usr' -c ':Lexplore'",
+    [" System Files"] = "kitty -1 sudo lf",
 }
 
 local options_string = ""

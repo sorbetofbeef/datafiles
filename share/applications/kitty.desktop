@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=kitty
+StartupWMClass=kitty
+Exec=kitty -1 --title "kitty"
+Icon=/home/me/.local/share/icons/whiskers_64x64.png
+Path=${HOME}
+Comment[en_US]=Fully featured; GPU rendered terminal emulator

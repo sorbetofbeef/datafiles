@@ -1,4 +1,5 @@
 [Default Applications]
+=neovim.desktop;htop.desktop;ide.desktop;google-chrome.desktop;neomutt.desktop;lf.desktop;system-config.desktop;system-data.desktop;user-config.desktop;user-data.desktop;chromium.desktop;kitty.desktop;org.pwmt.zathura.desktop;Alacritty.desktop;org.gtk.IconBrowser4.desktop;gpick.desktop;org.kde.krita.desktop;qt5ct.desktop;firefox.desktop;libfm-pref-apps.desktop;pcmanfm.desktop;pcmanfm-desktop-pref.desktop
 application/pdf=google-chrome.desktop
 application/rdf+xml=google-chrome.desktop;firefox.desktop
 application/rss+xml=google-chrome.desktop;firefox.desktop
@@ -10,15 +11,15 @@ application/x-shellscript=neovim.desktop;system-config.desktop;system-data.deskt
 application/x-xpinstall=firefox.desktop
 application/xhtml+xml=google-chrome.desktop;chromium.desktop;firefox.desktop
 application/xhtml_xml=google-chrome.desktop
-application/xml=neovim.desktop;google-chrome.desktop;firefox.desktop
-image/gif=imv.desktop;google-chrome.desktop;firefox.desktop
-image/jpeg=imv.desktop;google-chrome.desktop;firefox.desktop
+application/xml=google-chrome.desktop;firefox.desktop
+image/gif=google-chrome.desktop;firefox.desktop
+image/jpeg=google-chrome.desktop;firefox.desktop
 image/openraster=org.kde.krita.desktop
-image/png=imv.desktop;google-chrome.desktop;firefox.desktop
-image/webp=imv.desktop;google-chrome.desktop
+image/png=google-chrome.desktop;firefox.desktop
+image/webp=google-chrome.desktop
 inode/directory=lf.desktop;pcmanfm.desktop;qtfm.desktop
 text/english=neovim.desktop;system-config.desktop;system-data.desktop;user-config.desktop;user-data.desktop
-text/html=firefox.desktop;google-chrome.desktop;chromium.desktop
+text/html=google-chrome.desktop;chromium.desktop;firefox.desktop
 text/mml=chromium.desktop
 text/plain=neovim.desktop;system-config.desktop;system-data.desktop;user-config.desktop;user-data.desktop
 text/x-c=neovim.desktop;system-config.desktop;system-data.desktop;user-config.desktop;user-data.desktop

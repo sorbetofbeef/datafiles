@@ -41,7 +41,7 @@ _check_exist () {
 create () {
   echo "Populating list of alternates for ${program}..."
   sleep 2
-  doas kiss a | rg -i "${program}" > "${tmp_dir}/${io_file}" || error_out "create list of alternates failed"
+  sudo kiss a | rg -i "${program}" > "${tmp_dir}/${io_file}" || error_out "create list of alternates failed"
   echo "Success!"
   return 0
 }
@@ -49,7 +49,7 @@ create () {
 run_kiss () {
   echo "Setting kiss to use ${program}..."
   while read -r line; do
-    doas kiss a $(echo $line) || error_out 'failed to read input file into "kiss a"'
+    sudo kiss a $(echo $line) || error_out 'failed to read input file into "kiss a"'
   done < "${tmp_dir}/${io_file}"
   echo "Success!"
   return 0

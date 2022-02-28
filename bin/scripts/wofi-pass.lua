@@ -1,11 +1,11 @@
 #!/usr/bin/lua
+
+local gpg = "kitty --class passwords \"/usr/bin/gpg -d -q /home/me/.local/share/passwords/"
+
 local options = {
- --   [" Lock"] = "swaylock",
-    [" Shut down"] = "sudo poweroff",
-     [" Reboot"] = "sudo reboot",
-    ["﫼 Log out"] = "riverctl exit",
-    -- ["鈴 Suspend"] = "sudo suspend",
-    -- [" Hibernate"] = "sudo hibernate",
+    ["Outlook"] = gpg .. "outlook.pgp\"",
+    -- [""] = "sudo reboot",
+    -- ["Log out"] = "riverctl exit",
 }
 
 local options_string = ""
@@ -21,7 +21,7 @@ local f = assert(
         "echo -e '"
             .. options_string
             .. "' | wofi "
-            .. "--dmenu --insensitive --prompt 'Power State' --style ~/.config/wofi/style.css",
+            .. "--dmenu --insensitive --prompt 'Passwords' --style ~/.config/wofi/style.css",
         "r"
     )
 )
