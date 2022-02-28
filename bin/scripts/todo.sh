@@ -41,9 +41,13 @@ check () {
 show () {
   echo "TODO LIST"
 
+  i=0
   for todo in "$workspace"/*.todo; do
+    i=$((i + 1))
+    echo "$i"
     bat -f --theme="TwoDark" "$todo"
   done
+  unset i unset todo
 }
 
 edit () {
