@@ -15,11 +15,11 @@ create () {
   formatting="${formatting//\_\_/\_}"
   f_title="${formatting,,}"
 
-  cat > "$workspace/${f_title}_$(date '+%m.%d').todo" << EOF
- - Entry - $title
-  - Due -  $due_date
- - Notes -
-$notes
+  cat > "$workspace/${f_title}-$(date '+%m.%d').todo" << EOF
+> Entry: $title
+|   Due: $due_date
+|   NOTES
+-   $notes
 EOF
 
   unset title due_date notes
@@ -45,7 +45,7 @@ show () {
   for todo in "$workspace"/*.todo; do
     i=$((i + 1))
     echo "$i"
-    bat -f --theme="TwoDark" "$todo"
+    bat -f --theme="OneHalfDark" "$todo"
   done
   unset i unset todo
 }
@@ -63,17 +63,40 @@ edit () {
   unset choice i
 }
 
-destroy () {
+complete () {
+  target_dir=$workspace/.completed
+  pushd $workspace || return 1
+  printf "Complete entry: " ; read choice
+  _disable $choice $target_dir
+  popd || return 1
+}
+
+abandon () {
+  target_dir=$workspace/.abandoned
+  pushd $workspace || return 1
+  printf "Abandon entry: " ; read choice
+  _disable $choice $target_dir
+  popd || return 1
+}
+
+_disable () {
+  choice=$1
+  target_dri=$2
   i=0
-  pushd /home/me/workspace/ || return 1
-  printf "Remove entry: " ; read choice
-  for f in /home/me/workspace/*.todo; do
+
+  for f in *.todo; do
     i=$((i + 1))
     [[ ! $choice = $i ]] && continue 
-    [[ $choice = $i ]] && rm -iv "$f"
+    [[ $choice = $i ]] && mv "$f" "${target_dir}"
+    action=${target_dir##*.}
+    name=${f##*/}
+    name=${name%-*}
+    name=${name//\_/\ }
+    echo "You ${action}: \"${name}\" on $(date '+%m.%d.%Y') at $(date '+%H:%M')"
+    echo "${action}: $(date '+%m.%d.%Y_%H:%M')" >> "${target_dir}/${f}"
+    echo "${f%.todo}-$(date '+%m.%d.%Y_%H:%M')" >> "${target_dir}/summary"
   done
-  popd || return 1
-  unset choice i
+  unset choice target_dir i
 }
 
 check () {
@@ -88,7 +111,7 @@ check () {
 
 main() {
   
-  printf '┏━━━━━━━━━━━━━━━━┓ \n┃   Main Menu    ┃ \n┗━━━┳━━━━━━━━━━┳━┛\n    ┃  (s)how  ┃  \n    ┣━━━━━━━━━━┫  \n    ┃ (c)reate ┃  \n    ┣━━━━━━━━━━┫  \n    ┃  (e)dit  ┃  \n    ┣━━━━━━━━━━┫  \n    ┃ (d)elete ┃  \n    ┣━━━━━━━━━━┫  \n    ┃  (q)uit  ┃  \n    ┗━━━━━━━━━━┛ \n'
+  printf '┏━━━━━━━━━━━━━━━━┓ \n┃   Main Menu    ┃ \n┗━━━┳━━━━━━━━━━┳━┻━━━━━━━━┓\n    ┃  (s)how  ┃ (f)inish ┃   \n    ┣━━━━━━━━━━╋━━━━━━━━━━┫ \n    ┃ (c)reate ┃ (d)elete ┃  \n    ┣━━━━━━━━━━╋━━━━━━━━━━┫  \n    ┃  (e)dit  ┃  \n    ┣━━━━━━━━━━┫  \n    ┃  (q)uit  ┃  \n    ┗━━━━━━━━━━┛ \n'
 
   read -r -n1 select
   echo ""
@@ -110,20 +133,27 @@ main() {
       ;;
     e ) 
       clear
-      check 'About to destroying a todo entry... ' || break
+      check '... ' || break
+      sleep 1
       clear
       show
       edit 
+      ;;
+    f ) 
+      clear
+      check 'Completing todo item... ' || break
+      sleep 1
+      clear
+      show
+      complete 
       ;;
     d ) 
       clear
       check 'Destroying todo item... ' || break
       sleep 1
       clear
-      echo 
-      clear
       show
-      destroy 
+      abandon 
       ;;
     q ) 
       echo "Quiting... " 
