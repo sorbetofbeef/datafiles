@@ -2,6 +2,7 @@
 
 workspace=/home/me/workspace
 loop=true
+show_loop=true
 
 active="$workspace/active/*.todo"
 in_active="$workspace/abandoned/*.todo $workspace/completed/*.todo"
@@ -57,13 +58,13 @@ show () {
   fi
 
   clear
-  printf '\n\e[1;31;3m        TODO LIST\e[0m\n\n'
-  printf ' \e[1;36m|>\e[0m \e[31;3m%s Items\e[0m\n\n' "${f_status}"
+  printf '\n\e[1;31;3m* TODO *\e[0m\n\n'
+  printf '  \e[1;36m|>\e[0m \e[31;3m%s Items\e[0m\n\n' "${f_status}"
 
   for f in $status; do
     i=$((i + 1))
-    printf "\e[1;31m  --\e[0m\e[36m[\e[0m \e[1;31;3mEntry %s\e[0m \e[36m]\e[0m\n" $i
-    bat --style grid --italic-text always "$f"
+    printf "      \e[36m[\e[0m \e[1;31;3mEntry %s\e[0m \e[36m]\e[0m\n" $i
+    bat --style grid --terminal-width 40 "$f"
   done 
   unset i f status
 }
@@ -91,51 +92,61 @@ create () {
   prio=
   ret_val=1
 
-  _priority () {
+  _priority_input () {
     prio=
     flags=(' ' ' ' ' ' ' ')
     
     while [ "$ret_val" -eq 1 ]; do
       printf '\nPriority[1-(4)]: ' ; read -r prio
       if [[ -z $prio ]]; then
-        prio=3
         ret_val="$?"
+        prio=4
+        flag_id=3
         return 0
       else
         if (check_digit "$prio" && [[ $prio -lt 4 ]]) ; then
           ret_val="$?"
+          flag_id=$((prio - 1))
           return 0
         else
+          printf ' \e[1;31m!\e[0m \e[1;31;3mInvalid Input\e[0m \e[1;31m!\e[0m'
           return 1
         fi
       fi
     done
+    unset retval
   }
 
-  _due_date () {
+  _due_date_input () {
+    printf '\n'
     cal
-    printf '\nDue: ' ; read -r due
+    printf '\n\nDue: ' ; read -r due
 
-    f_due=${due//.,\//}
-    due=${f_due}
+    due=${due//\.\-\,\/}
+  }
+
+  _title_input () {
+    printf '\nTitle: ' ; read -a title
+    formatting="${title[@]//[\[\]\!:?@#$%^\&\*]}"
+    formatting="${formatting[@]//[\ \-\.\,]/_}"
+    formatting="${formatting[@]//____/_}"
+    formatting="${formatting[@]//___/_}"
+    formatting="${formatting[@]//__/_}"
+    formatting="${formatting[@]//__/_}"
+    f_title="${formatting[@],,}"
+
+    unset formatting
   }
 
   printf '\nCategory: '; read -r category
-  printf '\nTitle: ' ; read -r title
-    _priority
-  _due_date
+  _title_input
+  _priority_input
+  _due_date_input
   printf '\nNotes: ' ; read -r notes
 
-  formatting="${title//[\[\]\!:?@#$%^\&\*]}"
-  formatting="${formatting//[\ \-\.\,]/_}"
-  formatting="${formatting//____/_}"
-  formatting="${formatting//___/_}"
-  formatting="${formatting//__/_}"
-  formatting="${formatting//__/_}"
-  f_title="${formatting,,}"
 
-  cat > "${active%/*}/${prio}0-$(date '+%m.%d')-${f_title}.todo" << EOF
-> ${flags[${prio}]} ${category^^}: ${title^[[:word:]]}
+  cat > "${active%/*}/${prio}0-$(date '+%m.%d')-${f_title[@]}.todo" << EOF
+> ${flags[${flag_id}]} ${category^^}: ${title[@]^}
 |    Due: ${due}
 |    NOTES
 -      $notes
@@ -143,7 +154,7 @@ EOF
 
   show "$active"
   next
-  unset title due_date notes
+  unset flags category title prio due_date flag_id notes
 }
 
 edit () {
@@ -160,7 +171,7 @@ edit () {
 
   show "$active"
   next
-  unset choice i
+  unset i choice
 }
 
 remove_to () {
@@ -188,13 +199,13 @@ _remove () {
     name=${name##*-}
     name=${name//_/\ }
     echo "You ${action}: \"${name}\" on $(date '+%m.%d.%Y') at $(date '+%H:%M')"
-    echo "${action}: $(date '+%m.%d.%Y %H:%M')" >> "${target_dir}/${f##*-}"
+    echo "${action}: $(date '+%m.%d.%Y %H:%M')" >> "${target_dir}/${f}"
     echo "${f%.todo}-$(date '+%m%d.%Y_%H:%M')" >> "${target_dir}/summary"
   done
 
   show "$target_dir/*.todo"
   next
-  unset choice target_dir f i name action
+  unset choice target_dir i f action name 
 }
 
 check () {
@@ -221,7 +232,6 @@ main() {
   case $select in 
     s ) # Show active todo items
       clear
-      show_loop=true
       while $show_loop; do
         show_menu || show_loop=false
       done
@@ -258,4 +268,4 @@ while $loop; do
   popd > /dev/null || return 1
 done
 
-unset active completed abandoned loop workspace
+unset active completed abandoned in_active loop workspace show_loop
