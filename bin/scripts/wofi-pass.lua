@@ -1,11 +1,11 @@
 #!/usr/bin/lua
 
-local gpg = "kitty --class passwords \"/usr/bin/gpg -d -q /home/me/.local/share/passwords/"
+local kitty = "kitty --hold --class='passwords' zsh -c '"
+local gpg = "/usr/bin/gpg -d -q /home/me/.local/share/passwords/"
 
 local options = {
-    ["Outlook"] = gpg .. "outlook.pgp\"",
-    -- [""] = "sudo reboot",
-    -- ["Log out"] = "riverctl exit",
+    ["Outlook"] = kitty .. gpg .. "outlook.pgp'",
+    ["Spotify"] = kitty .. "echo \"q26el34rgdc638l3ps3dih7f2\" && " .. gpg .. "spotify-q26el34rgdc638l3ps3dih7f2.pgp'"
 }
 
 local options_string = ""

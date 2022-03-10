@@ -1,173 +1,261 @@
-#!/bin/sh
+#!/bin/bash
 
 workspace=/home/me/workspace
 loop=true
 
-create () {
-  printf '\n - Entry - '; read -r title
-  printf '\n  - Due - '; read -r due_date 
-  printf '\n - Notes - '; read -r notes
+active="$workspace/active/*.todo"
+in_active="$workspace/abandoned/*.todo $workspace/completed/*.todo"
+completed="$workspace/completed/*.todo"
+abandoned="$workspace/abandoned/*.todo"
 
-  formatting="${title//[\'\[\]\!\?@#\$%\^&\*\(\)\{\}]}"
-  formatting="${formatting//[\ \-\.\,]/\_}"
-  formatting="${formatting//\_\_\_/\_}"
-  formatting="${formatting//\_\_/\_}"
-  formatting="${formatting//\_\_/\_}"
-  f_title="${formatting,,}"
+show_menu () {
+  printf '┏━━━━━━━━━━━━━━━━━━━┓ \n┃      SubMenu      ┃ \n┗━━━┳━━━━━━━━━━━━━┳━┻━━━━━━━━━━━┓\n    ┃  (a)ctive   ┃ (i)nactive  ┃   \n    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━┫ \n    ┃ (c)ompleted ┃ a(b)andoned ┃  \n    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━┫  \n    ┃   (q)uit    ┃  \n    ┗━━━━━━━━━━━━━┛ \n'
+  read -r -n1 status
+  printf '\n'
 
-  cat > "$workspace/${f_title}-$(date '+%m.%d').todo" << EOF
-> Entry: $title
-|   Due: $due_date
-|   NOTES
--   $notes
-EOF
-
-  unset title due_date notes
-}
-
-check () {
-  msg=$1
-  printf '%s \nContinue? (Y/n)\n'
-    read -r -n1 choise
-    echo ""
-    if [ "$choise" = "n" ]; then
-      echo "Okay..."
-      return 1
-    fi
-    unset choise
-    return 0
+  case "$status" in
+    a) 
+      show "$active"
+      next
+      ;;
+    i) 
+      show "$in_active"
+      next
+      ;;
+    c) 
+      show "$completed"
+      next
+      ;;
+    b) 
+      show "$abandoned"
+      next
+      ;;
+    q)
+      clear
+      echo "Quiting to menu..."
+      show_loop=false
+      return 0
+      ;;
+    *)
+      clear
+      echo "Invalid input..."
+      ;;
+  esac
+  unset status
 }
 
 show () {
-  echo "TODO LIST"
-
+  status=$1
   i=0
-  for todo in "$workspace"/*.todo; do
+
+  if [[ $status = "$in_active" ]] ; then
+    f_status='In-Active'
+  else
+    f_status="${status%/*}"
+    f_status="${f_status##*/}"
+    f_status="${f_status^}"
+  fi
+
+  clear
+  printf '\n\e[1;31;3m        TODO LIST\e[0m\n\n'
+  printf ' \e[1;36m|>\e[0m \e[31;3m%s Items\e[0m\n\n' "${f_status}"
+
+  for f in $status; do
     i=$((i + 1))
-    echo "$i"
-    bat -f --theme="OneHalfDark" "$todo"
-  done
-  unset i unset todo
+    printf "\e[1;31m  --\e[0m\e[36m[\e[0m \e[1;31;3mEntry %s\e[0m \e[36m]\e[0m\n" $i
+    bat --style grid --italic-text always "$f"
+  done 
+  unset i f status
+}
+
+check_digit () {
+  input=$1
+  if [[ $input = [[:digit:]] ]]; then
+    return 0
+  else
+    echo "Invalid Input"
+    return 1
+  fi
+}
+
+next () {
+  printf '\n \e[1;32m*\e[0m \e[32mPress any key to continue..\e[0m \e[1;32m*\e[0m\n'
+  read -r -n1 key
+  [[ -n "$key" ]] && return 0
+  return 0
+}
+
+
+create () {
+  show "$active"
+  prio=
+  ret_val=1
+
+  _priority () {
+    prio=
+    flags=(' ' ' ' ' ' ' ')
+    
+    while [ "$ret_val" -eq 1 ]; do
+      printf '\nPriority[1-(4)]: ' ; read -r prio
+      if [[ -z $prio ]]; then
+        prio=3
+        ret_val="$?"
+        return 0
+      else
+        if (check_digit "$prio" && [[ $prio -lt 4 ]]) ; then
+          ret_val="$?"
+          return 0
+        else
+          return 1
+        fi
+      fi
+    done
+  }
+
+  _due_date () {
+    cal
+    printf '\nDue: ' ; read -r due
+
+    f_due=${due//.,\//}
+    due=${f_due}
+  }
+
+  printf '\nCategory: '; read -r category
+  printf '\nTitle: ' ; read -r title
+    _priority
+  _due_date
+  printf '\nNotes: ' ; read -r notes
+
+  formatting="${title//[\[\]\!:?@#$%^\&\*]}"
+  formatting="${formatting//[\ \-\.\,]/_}"
+  formatting="${formatting//____/_}"
+  formatting="${formatting//___/_}"
+  formatting="${formatting//__/_}"
+  formatting="${formatting//__/_}"
+  f_title="${formatting,,}"
+
+  cat > "${active%/*}/${prio}0-$(date '+%m.%d')-${f_title}.todo" << EOF
+> ${flags[${prio}]} ${category^^}: ${title^[[:word:]]}
+|    Due: ${due}
+|    NOTES
+-      $notes
+EOF
+
+  show "$active"
+  next
+  unset title due_date notes
 }
 
 edit () {
   i=0
-  pushd /home/me/workspace/ || return 1
-  printf "Edit entry: " ; read choice
-  for f in /home/me/workspace/*.todo; do
+
+  show "$active"
+  printf "Entry: " ; read -r choice
+  check_digit "$choice" || return 1
+  for f in $active; do
     i=$((i + 1))
-    [[ ! $choice = $i ]] && continue 
-    [[ $choice = $i ]] && nvim "$f" 
+    [[ ! $choice = "$i" ]] && continue 
+    [[ $choice = "$i" ]] && nvim "$f" 
   done
-  popd || return 1
+
+  show "$active"
+  next
   unset choice i
 }
 
-complete () {
-  target_dir=$workspace/.completed
-  pushd $workspace || return 1
-  printf "Complete entry: " ; read choice
-  _disable $choice $target_dir
-  popd || return 1
+remove_to () {
+  target_dir=${1%/*}
+
+  show "$active"
+  printf "Entry: " ; read -r choice
+  clear
+  check_digit "$choice" || return 1
+  _remove "$choice" "$target_dir"
+  unset choice target_dir
 }
 
-abandon () {
-  target_dir=$workspace/.abandoned
-  pushd $workspace || return 1
-  printf "Abandon entry: " ; read choice
-  _disable $choice $target_dir
-  popd || return 1
-}
-
-_disable () {
+_remove () {
   choice=$1
-  target_dri=$2
+  target_dir=$2
   i=0
 
-  for f in *.todo; do
+  for f in active/*.todo; do
     i=$((i + 1))
-    [[ ! $choice = $i ]] && continue 
-    [[ $choice = $i ]] && mv "$f" "${target_dir}"
-    action=${target_dir##*.}
+    [[ ! $choice = "$i" ]] && continue 
+    [[ $choice = "$i" ]] && mv "$f" "${target_dir}"
+    action=${target_dir#*/}
     name=${f##*/}
-    name=${name%-*}
-    name=${name//\_/\ }
+    name=${name##*-}
+    name=${name//_/\ }
     echo "You ${action}: \"${name}\" on $(date '+%m.%d.%Y') at $(date '+%H:%M')"
-    echo "${action}: $(date '+%m.%d.%Y_%H:%M')" >> "${target_dir}/${f}"
-    echo "${f%.todo}-$(date '+%m.%d.%Y_%H:%M')" >> "${target_dir}/summary"
+    echo "${action}: $(date '+%m.%d.%Y %H:%M')" >> "${target_dir}/${f##*-}"
+    echo "${f%.todo}-$(date '+%m%d.%Y_%H:%M')" >> "${target_dir}/summary"
   done
-  unset choice target_dir i
+
+  show "$target_dir/*.todo"
+  next
+  unset choice target_dir f i name action
 }
 
 check () {
   while getopts "ns" opt ; do
     case ${opt} in 
       n ) new; exit 0 ;;
-      s ) show; exit 0 ;;
+      s ) show ; exit 0 ;;
       \? ) echo "invalid option" ;;
     esac
   done
+  unset opt
+}
+
+_menu_ui () {
+  printf '┏━━━━━━━━━━━━━━━━┓ \n┃   Main Menu    ┃ \n┗━━━┳━━━━━━━━━━┳━┻━━━━━━━━┓\n    ┃  (s)how  ┃ (f)inish ┃   \n    ┣━━━━━━━━━━╋━━━━━━━━━━┫ \n    ┃ (c)reate ┃ (d)elete ┃  \n    ┣━━━━━━━━━━╋━━━━━━━━━━┫  \n    ┃  (e)dit  ┃  (u)ndo  ┃  \n    ┣━━━━━━━━━━┫━━━━━━━━━━┛  \n    ┃  (q)uit  ┃  \n    ┗━━━━━━━━━━┛ \n'
 }
 
 main() {
-  
-  printf '┏━━━━━━━━━━━━━━━━┓ \n┃   Main Menu    ┃ \n┗━━━┳━━━━━━━━━━┳━┻━━━━━━━━┓\n    ┃  (s)how  ┃ (f)inish ┃   \n    ┣━━━━━━━━━━╋━━━━━━━━━━┫ \n    ┃ (c)reate ┃ (d)elete ┃  \n    ┣━━━━━━━━━━╋━━━━━━━━━━┫  \n    ┃  (e)dit  ┃  \n    ┣━━━━━━━━━━┫  \n    ┃  (q)uit  ┃  \n    ┗━━━━━━━━━━┛ \n'
-
+  show "$active"
+  _menu_ui
   read -r -n1 select
-  echo ""
-
+  printf '\n'
+  
   case $select in 
-    s ) 
+    s ) # Show active todo items
       clear
-      echo "Displaying todo entries... " 
-      sleep 1
-      clear
-      show 
+      show_loop=true
+      while $show_loop; do
+        show_menu || show_loop=false
+      done
       ;;
-    c ) 
-      clear
-      check 'About to create a new todo entry... ' || break
-      sleep 1
-      clear
+    c ) # Create a new todo item
       create
       ;;
-    e ) 
-      clear
-      check '... ' || break
-      sleep 1
-      clear
-      show
+    e ) # Edit a todo item
       edit 
       ;;
-    f ) 
-      clear
-      check 'Completing todo item... ' || break
-      sleep 1
-      clear
-      show
-      complete 
+    f ) # Complete a todo item
+      remove_to "$completed"
       ;;
-    d ) 
-      clear
-      check 'Destroying todo item... ' || break
-      sleep 1
-      clear
-      show
-      abandon 
+    d ) # Abandon a todo item
+      remove_to "$abandoned"
       ;;
-    q ) 
-      echo "Quiting... " 
-      sleep 1
+    u ) # Undo an abandoned or completed todo item
+      undo_from "$in_active"
+      ;;
+    q ) # Exits the program
+      printf '\nQuiting... \n' 
       export loop=false
       ;;
-    * ) echo "Invalid selection" ; clear ;;
+    * ) clear ; printf '\nInvalid selection\n';;
   esac
 
+  unset select
 }
 
+check "$@"
 while $loop; do 
-  check "$@"
-  main
+  pushd $workspace > /dev/null || return 1
+  main || loop=false
+  popd > /dev/null || return 1
 done
 
-unset loop select options workspace
+unset active completed abandoned loop workspace
