@@ -1,3 +1,3 @@
 #!/bin/bash
 
-killall wofi || wofi-power-menu "$@"
+pkill wofi || wofi-power-menu "$@"

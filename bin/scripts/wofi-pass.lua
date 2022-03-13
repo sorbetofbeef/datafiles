@@ -18,10 +18,10 @@ options_string = options_string:sub(1, -2)
 
 local f = assert(
     io.popen(
-        "echo -e '"
+        "printf '"
             .. options_string
             .. "' | wofi "
-            .. "--dmenu --insensitive --prompt 'Passwords' --style ~/.config/wofi/style.css",
+            .. "--dmenu --insensitive --prompt 'Passwords' --style ~/.config/wofi/style.css\n",
         "r"
     )
 )
