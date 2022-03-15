@@ -10,7 +10,7 @@ completed="$workspace/completed/*.todo"
 abandoned="$workspace/abandoned/*.todo"
 
 show_menu () {
-  printf '┏━━━━━━━━━━━━━━━━━━━┓ \n┃      SubMenu      ┃ \n┗━━━┳━━━━━━━━━━━━━┳━┻━━━━━━━━━━━┓\n    ┃  (a)ctive   ┃ (i)nactive  ┃   \n    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━┫ \n    ┃ (c)ompleted ┃ a(b)andoned ┃  \n    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━┫  \n    ┃   (q)uit    ┃  \n    ┗━━━━━━━━━━━━━┛ \n'
+  printf '\e[37m┏━━━━━━━━━━━━━━━━━━━┓ \e[0m\n┃      SubMenu      ┃ \n┗━━━┳━━━━━━━━━━━━━┳━┻━━━━━━━━━━━┓\n    ┃  (a)ctive   ┃ (i)nactive  ┃   \n    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━┫ \n    ┃ (c)ompleted ┃ a(b)andoned ┃  \n    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━┫  \n    ┃   (q)uit    ┃  \n    ┗━━━━━━━━━━━━━┛ \n'
   read -r -n1 status
   printf '\n'
 
