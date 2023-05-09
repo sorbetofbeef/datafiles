@@ -1,8 +1,8 @@
+#!/bin/bash
 #########################################
 # Christian's ArchLinux Install Scripts #
 #  --updated 1.10.2022                  #
 #########################################
-#!/bin/bash
 # ~/arch-install/chroot.sh
 #
 # chroot environment 
@@ -10,10 +10,10 @@
 #
 
 ### Variables
-source ${HOME}/arch-install/common/vars.sh
+source "${HOME}"/arch-install/common/vars.sh
 
 ### Functions
-source ${HOME}/arch-install/common/funcs.sh
+source "${HOME}"/arch-install/common/funcs.sh
 
 # Setting up timezone
 timezone () {
@@ -134,8 +134,8 @@ dns_setup () {
 # Creating a user
 user_creation () {
 	user=$REG_USER
-	echo "CrRREGng the user $user" 
-	useradd -G wheel,video,audio -s /bin/bash -m $user &&
+	echo "Creating the user $user" 
+	useradd -G wheel,video,audio -s /bin/bash -m "$user" &&
 	[[ -d /home/${user} ]] ; outcome "$?" "User Setup"
 }
 	

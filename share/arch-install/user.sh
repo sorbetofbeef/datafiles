@@ -1,8 +1,8 @@
+#!/bin/bash
 #########################################
 # Christian's ArchLinux Install Scripts #
 #  --updated 1.10.2022                  #
 #########################################
-#!/bin/bash
 # ~/arch-install/user.sh
 #
 # chroot enviornment 
@@ -12,13 +12,13 @@
 
 ### Variables
 
-source ${HOME}/arch-install/common/vars.sh
+source "${HOME}"/arch-install/common/vars.sh
 SCCACHE="/usr/bin/sccache"
 
 
 ### Functions
 
-source ${HOME}/arch-install/common/funcs.sh
+source "${HOME}"/arch-install/common/funcs.sh
 
 exit_message () {
 	if [ "$?" -eq 0 ]; then
@@ -60,7 +60,7 @@ exit_message () {
 }
 
 push () {
-	pushd $1 || die ''
+	pushd "$1" || die ''
 }	
 
 pop () {
@@ -75,7 +75,7 @@ get_dotfiles () {
 		echo "Local dotfile repo not found"
 		echo "Cloning dotfiles from github..."
 
-		git clone https://github.com/sorbetofbeef/dotfiles /home/$USER/.config  ; outcome "$?" "Cloning"
+		git clone https://github.com/sorbetofbeef/dotfiles /home/"$USER"/.config  ; outcome "$?" "Cloning"
 	else
 		echo "Found dotfiles locally!" ; outcome "$?" "Cloning"
 		sleep 1
