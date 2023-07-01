@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pg_ctl -D $HOME/.local/var/lib/postgresql-15.3/ -l $HOME/.local/var/log/postgresql-15.3.log start &
+bat ~/.local/var/log/postgresql-15.3.log &

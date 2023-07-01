@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+exec python /home/me/github.com/sorbetofbeef/create-project/create-project.py
+

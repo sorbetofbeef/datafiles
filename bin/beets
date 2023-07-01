@@ -1,0 +1,51 @@
+#!/bin/bash
+
+args=("${@}")
+
+help='Usage:
+  -c    Connects to my headphones
+  -d    Disconnects my headphones
+'
+
+connect ()
+{
+  if [[ $(pgrep -c bluetoothd) -eq 0 ]]; then 
+    sudo rc-service bluetooth start
+  fi
+  bluetoothctl connect F8:66:5A:37:BE:AC
+  return 0
+}
+
+disconnect ()
+{
+  if [[ $(pgrep -c bluetoothd) -eq 0 ]]; then 
+    echo "Bluetooth is already disconnected"
+    return 1
+  fi
+  bluetoothctl disconnect F8:66:5A:37:BE:AC
+  if [[ $(pgrep -c bluetoothd) -gt 0 ]]; then 
+    sudo rc-service bluetooth stop
+  fi
+  return 0
+}
+
+if [[ -n ${args[1]} ]]; then
+   printf 'Too many options applied\n'
+   printf '%s' "$help"
+   exit 1
+elif [[ -z ${args[0]} ]]; then
+  printf 'No options applied\nYou must apply at least one option\n'
+  printf '%s' "$help"
+  exit 1
+elif [[ ${args[0]} = '-c' ]]; then
+  connect
+  exit $!
+elif [[ ${args[0]} = '-d' ]]; then
+  disconnect
+  exit $!
+else
+  printf 'Unrecognized option: %s\n' "${args[1]}"
+  printf '%s' "$help"
+  exit 1
+fi
+
