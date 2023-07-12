@@ -1,3 +1,3 @@
 #!/bin/bash
 
-firefox-bin --disable-pinch
+exec firefox-bin --disable-pinch
