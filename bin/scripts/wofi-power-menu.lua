@@ -1,29 +1,29 @@
 #!/usr/bin/lua
 local options = {
- --   [" Lock"] = "swaylock",
-    [" Shut down"] = "sudo poweroff",
-     [" Reboot"] = "sudo reboot",
-    ["﫼 Log out"] = "riverctl exit",
-    -- ["鈴 Suspend"] = "sudo suspend",
-    -- [" Hibernate"] = "sudo hibernate",
+	[" Lock"] = "gtklock",
+	[" Shut down"] = "sudo poweroff",
+	[" Reboot"] = "sudo reboot",
+	["﫼 Log out"] = "hyprctl exit",
+	["鈴 Suspend"] = "sudo systemctl start suspend",
+	[" Hibernate"] = "sudo hibernate",
 }
 
 local options_string = ""
 local length = 0
 for key, _ in pairs(options) do
-    options_string = options_string .. key .. "\n"
-    length = length + 1
+	options_string = options_string .. key .. "\n"
+	length = length + 1
 end
 options_string = options_string:sub(1, -2)
 
 local f = assert(
-    io.popen(
-        "printf '"
-            .. options_string
-            .. "' | wofi "
-            .. "--dmenu --insensitive --prompt 'Power State' --style ~/.config/wofi/style.css\n",
-        "r"
-    )
+	io.popen(
+		"printf '"
+			.. options_string
+			.. "' | wofi "
+			.. "--dmenu --insensitive --prompt 'Power State' --style ~/.config/wofi/style.css\n",
+		"r"
+	)
 )
 local s = assert(f:read("*a"))
 s = string.gsub(s, "^%s+", "")

@@ -284,13 +284,13 @@ main () {
 	sleep 1
 	
 	# Creating directories
-	mkdir -pv dl github.com/sorbetofbeef
-
-	get_dotfiles ; outcome "$?" "CONFIG"
-
-	get_packages ; outcome "$?" "PACKAGES"
-
-	# enable_services ; outcome "$?" "Services"
+# 	mkdir -pv dl github.com/sorbetofbeef
+# 
+# 	get_dotfiles ; outcome "$?" "CONFIG"
+# 
+# 	get_packages ; outcome "$?" "PACKAGES"
+# 
+# 	# enable_services ; outcome "$?" "Services"
 	
 	clean_up ; outcome "$?" "CLEAN UP"
 
